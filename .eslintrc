@@ -5,7 +5,7 @@
 {
   "parser": "babel-eslint",
   "env": {
-    "mocha": true
+    "jest": true
   },
   "globals": {
     "document": true,
@@ -19,7 +19,8 @@
   "plugins": [
     "babel",
     "mocha",
-    "react"
+    "react",
+    "jest"
   ],
   "settings": {
     "import/resolver": "webpack"
