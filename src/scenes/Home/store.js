@@ -8,10 +8,12 @@ import { arrayMove } from 'react-sortable-hoc';
  */
 export default class HomeStore {
   /**
-   * Yandex maps state
-   * @type {{center: number[], zoom: number}}
+   * Yandex maps center coordinates
+   * Moscow is default
+   * @type {Number[]}
    */
-  // @observable mapState = ;
+  @observable centerCoordinates = [55.76, 37.64];
+
   /**
    * Dots collection
    * @type {Dot[]}
@@ -66,14 +68,21 @@ export default class HomeStore {
    }
 
   /**
-   * FIXME: save coords
-   * Change dot coordinates
+   * Changes placemark coordinates
    * @param {Number} pos of dot
-   * @param {Number[]} newCoordinates
+   * @param {Number[]} coordinates
    */
-   changeCoordinates(pos, newCoordinates) {
+   @action changePlaceMarkCoordinates(pos, coordinates) {
      if (this.items[pos]) {
-       this.items[pos].coordinates = newCoordinates;
+       this.items[pos].coordinates = coordinates;
      }
+   }
+
+  /**
+   * Save ya map center coodrinates
+   * @param {Number[]} coordinates
+   */
+   @action setMapCenter(coordinates) {
+     this.centerCoordinates = coordinates;
    }
 }

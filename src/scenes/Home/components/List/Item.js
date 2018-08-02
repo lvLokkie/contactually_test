@@ -10,13 +10,14 @@ import { SortableElement } from 'react-sortable-hoc';
 @observer
 export default class Item extends Component {
   render() {
+    const { props } = this;
     return (
       <li className="home__list-item">
-        { this.props.value }
+        { props.value }
         <button
           type="button"
           className="home__item-action"
-          onClick={() => this.props.onDelete(this.props.sortIndex)}
+          onClick={() => props.onItemDelete(props.sortIndex)}
         >
           Remove
         </button>

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { computed } from 'mobx';
-import { observer, inject } from 'mobx-react';
-import { YMaps, Map } from 'react-yandex-maps';
+import { inject, observer } from 'mobx-react';
+import { Map, YMaps } from 'react-yandex-maps';
 
-import Dot from './service/Dot';
+import Dot from './models/Dot';
 import List from './components/List';
-
 // map content
 import PlaceMarks from './components/Map/PlaceMarks';
 import Route from './components/Map/Route';
@@ -23,67 +22,61 @@ export default class Home extends Component {
     super(props);
     this.store = this.props.homeStore;
     this.mapRef = React.createRef();
-
-    // bind handlers
-    this.onDelete = this.onDelete.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onKeyPressHandler = this.onKeyPressHandler.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
-    this.onDotDragEnd = this.onDotDragEnd.bind(this);
   }
   /**
    * On key press in input
    * @param {KeyboardEvent} ev
    */
-  onKeyPressHandler(ev) {
+  onCaptionKeyPress = (ev) => {
     if (ev.key === 'Enter') {
       if (ev) ev.preventDefault();
       const { store } = this;
       const dot = new Dot(this.dotName, this.centerCoordinates);
       store.addDot(dot);
+      store.setMapCenter(this.centerCoordinates);
     }
-  }
+  };
 
   /**
    * On key press in input
    * @param {Event} ev
    */
-  onChange(ev) {
+  onCaptionChange = (ev) => {
     const { store } = this;
     const inputValue = ev.target.value;
     store.setCaption(inputValue);
-  }
+  };
 
   /**
    * On list item delete
    * @param {Number} posIndex
    */
-  onDelete(posIndex) {
+  onItemDelete = (posIndex) => {
     const { store } = this;
     store.deleteDot(posIndex);
-  }
+  };
 
   /**
    * On list item drag end event handler
    * @param {Object} ev
    */
-  onDragEnd(ev) {
+  onItemDragEnd = (ev) => {
     const { store } = this;
     store.moveDot(ev.oldIndex, ev.newIndex);
-  }
+  };
 
   /**
-   * Dot drug end handler
+   * Dot drag end handler
    * @param {Event} ev of Ya maps
    * @param {Number} pos
    * @see https://tech.yandex.ru/maps/doc/archive/jsapi/2.0/ref/reference/Event-docpage/#method_detail__get-param-name
    */
-  onDotDragEnd(ev, pos) {
+  onPlaceMarkDragEnd = (ev, pos) => {
     const { store } = this;
     const { geometry } = ev.originalEvent.target;
     const coordinates = geometry.getCoordinates();
-    store.changeCoordinates(pos, coordinates);
-  }
+    store.changePlaceMarkCoordinates(pos, coordinates);
+  };
 
   /**
    * Dot name from input
@@ -108,14 +101,20 @@ export default class Home extends Component {
    * @returns {Number[]}
    */
   @computed get centerCoordinates() {
-    // FIXME: make it simple
-    const { instance } = this.mapRef.current.state;
+    const instance = this.mapInstance;
     return instance.getCenter();
   }
 
   /**
+   * Get Yandex map instance
+   * @returns {Object}
+   */
+  @computed get mapInstance() {
+    return this.mapRef.current.state.instance;
+  }
+
+  /**
    * Render component method
-   * FIXME: save center after dot adding, now it is static Moscow
    */
   render() {
     return (
@@ -125,21 +124,21 @@ export default class Home extends Component {
             className="home__input"
             type="text"
             value={this.dotName}
-            onKeyPress={this.onKeyPressHandler}
-            onChange={this.onChange}
+            onKeyPress={this.onCaptionKeyPress}
+            onChange={this.onCaptionChange}
           />
           <List
             className="home__list-container"
             items={this.items}
-            onSortEnd={this.onDragEnd}
-            onDelete={this.onDelete}
+            onSortEnd={this.onItemDragEnd}
+            onItemDelete={this.onItemDelete}
           />
         </div>
         <div className="home__map">
           <YMaps>
-            <Map state={{ center: [55.76, 37.64], zoom: 10 }} ref={this.mapRef}>
-              <PlaceMarks items={this.items} onDotDragEnd={this.onDotDragEnd} />
-              <Route coordinates={this.items.map(el => el.coordinates)} />
+            <Map state={{ center: this.store.centerCoordinates, zoom: 10 }} ref={this.mapRef}>
+              <PlaceMarks items={this.items} onPlaceMarkDragEnd={this.onPlaceMarkDragEnd} />
+              <Route coordinates={this.items.map(el => el.coordinatesAsArray)} />
             </Map>
           </YMaps>
         </div>

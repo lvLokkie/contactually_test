@@ -22,7 +22,7 @@ export default class List extends Component {
               sortIndex={index}
               index={index}
               value={item.caption}
-              onDelete={this.props.onDelete}
+              onItemDelete={this.props.onItemDelete}
             />
           ))
         }

@@ -6,8 +6,8 @@ import { Provider } from 'mobx-react';
 import stores from './stores';
 import App from './App';
 
-// use strict
-configure({ enforceActions: 'strict' });
+// warn on mobx changes without actions
+configure({ enforceActions: true });
 
 /**
  * @author Ryazanov I.A

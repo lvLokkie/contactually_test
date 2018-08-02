@@ -14,9 +14,9 @@ export default class PlaceMarks extends Component {
       this.props.items.map((item, index) => (
         <Placemark
           key={uniqueKey(16, index)}
-          onDragEnd={(ev) => { this.props.onDotDragEnd(ev, index); }}
+          onDragEnd={(ev) => { this.props.onPlaceMarkDragEnd(ev, index); }}
           geometry={{
-            coordinates: item.coordinates,
+            coordinates: item.coordinatesAsArray,
           }}
           properties={{
             hintContent: item.name,
