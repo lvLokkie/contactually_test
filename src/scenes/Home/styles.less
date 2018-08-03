@@ -1,0 +1,35 @@
+@padding-s: 8px;
+@padding: 12px;
+@border-color: #ebebeb;
+@icon-size: 16px;
+
+.home__container {
+  display: flex;
+  flex-flow: row wrap;
+  min-width: 398px;
+}
+
+.home__navigation {
+  padding: @padding-s @padding;
+  flex-grow: 1;
+}
+
+.home__input {
+  width: 100%;
+  max-width: 606px;
+  box-sizing: border-box;
+  padding: @padding;
+  border: 1px solid @border-color;
+}
+
+.home__list-item {
+  cursor: pointer;
+  .home__action-delete {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-size: @icon-size;
+    text-decoration: none;
+    color: red;
+  }
+}

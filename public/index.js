@@ -29111,7 +29111,7 @@ var _mobxReact = __webpack_require__(/*! mobx-react */ "../node_modules/mobx-rea
 
 var _Home = _interopRequireDefault(__webpack_require__(/*! Scenes/Home */ "./scenes/Home/index.js"));
 
-var _dec, _class;
+var _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29135,12 +29135,12 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.getPrototypeOf || function _getPrototypeOf(o) { return o.__proto__; }; return _getPrototypeOf(o); }
 
-var App = (
+var App =
 /**
  * @author Ryazanov I.A
  * Application routing
  */
-_dec = (0, _mobxReact.inject)('homeStore'), _dec(_class = (0, _mobxReact.observer)(_class =
+(0, _mobxReact.observer)(_class =
 /*#__PURE__*/
 function (_Component) {
   function App() {
@@ -29161,7 +29161,8 @@ function (_Component) {
   _inherits(App, _Component);
 
   return App;
-}(_react.Component)) || _class) || _class);
+}(_react.Component)) || _class;
+
 exports.default = App;
 
 /***/ }),
@@ -29361,13 +29362,14 @@ function (_Component) {
       var props = this.props;
       return _react.default.createElement("li", {
         className: "home__list-item"
-      }, props.value, _react.default.createElement("button", {
+      }, props.value, " \xA0", _react.default.createElement("button", {
         type: "button",
-        className: "home__item-action",
+        className: "home__action-delete",
+        title: "Delete item",
         onClick: function onClick() {
           return props.onItemDelete(props.sortIndex);
         }
-      }, "Remove"));
+      }, "\u2716"));
     }
   }]);
 
@@ -29591,6 +29593,8 @@ var _mobxReact = __webpack_require__(/*! mobx-react */ "../node_modules/mobx-rea
 
 var _reactYandexMaps = __webpack_require__(/*! react-yandex-maps */ "../node_modules/react-yandex-maps/es/index.js");
 
+__webpack_require__(/*! ./styles.less */ "./scenes/Home/styles.less");
+
 var _Dot = _interopRequireDefault(__webpack_require__(/*! ./models/Dot */ "./scenes/Home/models/Dot.js"));
 
 var _List = _interopRequireDefault(__webpack_require__(/*! ./components/List */ "./scenes/Home/components/List.js"));
@@ -29705,25 +29709,14 @@ function (_Component) {
       return _react.default.createElement("div", {
         className: "home__container"
       }, _react.default.createElement("div", {
-        className: "home__navigation"
-      }, _react.default.createElement("input", {
-        className: "home__input",
-        type: "text",
-        value: this.dotName,
-        onKeyPress: this.onCaptionKeyPress,
-        onChange: this.onCaptionChange
-      }), _react.default.createElement(_List.default, {
-        className: "home__list-container",
-        items: this.items,
-        onSortEnd: this.onItemDragEnd,
-        onItemDelete: this.onItemDelete
-      })), _react.default.createElement("div", {
         className: "home__map"
       }, _react.default.createElement(_reactYandexMaps.YMaps, null, _react.default.createElement(_reactYandexMaps.Map, {
         state: {
           center: this.store.centerCoordinates,
           zoom: 10
         },
+        width: 630,
+        height: 315,
         ref: this.mapRef
       }, _react.default.createElement(_PlaceMarks.default, {
         items: this.items,
@@ -29732,7 +29725,23 @@ function (_Component) {
         coordinates: this.items.map(function (el) {
           return el.coordinatesAsArray;
         })
-      })))));
+      })))), _react.default.createElement("div", {
+        className: "home__navigation"
+      }, _react.default.createElement("input", {
+        className: "home__input",
+        type: "text",
+        tabIndex: 0,
+        title: "Add new placemark...",
+        placeholder: "Add new placemark...",
+        value: this.dotName,
+        onKeyPress: this.onCaptionKeyPress,
+        onChange: this.onCaptionChange
+      }), _react.default.createElement(_List.default, {
+        className: "home__list-container",
+        items: this.items,
+        onSortEnd: this.onItemDragEnd,
+        onItemDelete: this.onItemDelete
+      })));
     }
   }, {
     key: "dotName",
@@ -29769,7 +29778,7 @@ function (_Component) {
     }
     /**
      * Get Yandex map instance
-     * @returns {YandexMapInstance}
+     * @returns {Object}
      */
 
   }, {
@@ -30029,6 +30038,17 @@ function () {
   }
 }), _applyDecoratedDescriptor(_class.prototype, "addDot", [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, "addDot"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "deleteDot", [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, "deleteDot"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "moveDot", [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, "moveDot"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setCaption", [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, "setCaption"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "changePlaceMarkCoordinates", [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, "changePlaceMarkCoordinates"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setMapCenter", [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, "setMapCenter"), _class.prototype)), _class);
 exports.default = HomeStore;
+
+/***/ }),
+
+/***/ "./scenes/Home/styles.less":
+/*!*********************************!*\
+  !*** ./scenes/Home/styles.less ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 

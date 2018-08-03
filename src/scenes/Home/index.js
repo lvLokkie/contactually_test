@@ -3,8 +3,10 @@ import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { Map, YMaps } from 'react-yandex-maps';
 
+import './styles.less';
 import Dot from './models/Dot';
 import List from './components/List';
+
 // map content
 import PlaceMarks from './components/Map/PlaceMarks';
 import Route from './components/Map/Route';
@@ -119,10 +121,26 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home__container">
+        <div className="home__map">
+          <YMaps>
+            <Map
+              state={{ center: this.store.centerCoordinates, zoom: 10 }}
+              width={630}
+              height={315}
+              ref={this.mapRef}
+            >
+              <PlaceMarks items={this.items} onPlaceMarkDragEnd={this.onPlaceMarkDragEnd} />
+              <Route coordinates={this.items.map(el => el.coordinatesAsArray)} />
+            </Map>
+          </YMaps>
+        </div>
         <div className="home__navigation">
           <input
             className="home__input"
             type="text"
+            tabIndex={0}
+            title="Add new placemark..."
+            placeholder="Add new placemark..."
             value={this.dotName}
             onKeyPress={this.onCaptionKeyPress}
             onChange={this.onCaptionChange}
@@ -133,14 +151,6 @@ export default class Home extends Component {
             onSortEnd={this.onItemDragEnd}
             onItemDelete={this.onItemDelete}
           />
-        </div>
-        <div className="home__map">
-          <YMaps>
-            <Map state={{ center: this.store.centerCoordinates, zoom: 10 }} ref={this.mapRef}>
-              <PlaceMarks items={this.items} onPlaceMarkDragEnd={this.onPlaceMarkDragEnd} />
-              <Route coordinates={this.items.map(el => el.coordinatesAsArray)} />
-            </Map>
-          </YMaps>
         </div>
       </div>
     );

@@ -13,13 +13,14 @@ export default class Item extends Component {
     const { props } = this;
     return (
       <li className="home__list-item">
-        { props.value }
+        { props.value } &nbsp;
         <button
           type="button"
-          className="home__item-action"
+          className="home__action-delete"
+          title="Delete item"
           onClick={() => props.onItemDelete(props.sortIndex)}
         >
-          Remove
+          &#x2716;
         </button>
       </li>
     );
